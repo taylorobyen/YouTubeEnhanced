@@ -1,0 +1,143 @@
+body {
+    background-color: rgb(30, 30, 30);
+    color: rgb(253, 254, 253);
+}
+
+input {
+    height: 16px;
+    /* width: 32px; */
+    /* margin-left: 16px; */
+    margin-right: 16px;
+    text-align: center;
+    background-color: rgb(37, 37, 38);
+    color: inherit;
+    outline: none;
+    border: 1px solid rgb(78, 78, 82);
+}
+
+input::placeholder {
+    color: inherit;
+}
+
+.divider {
+    height: 1px;
+    width: 100%;
+    background-color: rgb(253, 254, 253);;
+}
+
+.menu-title {
+    /* color: rgb(204, 0, 0); */
+    font-size: large;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-align: center;
+    padding-bottom: 3px;
+    border-bottom: solid 1px rgb(253, 254, 253);
+}
+
+.menu-root {
+    width: 250px;
+    height: 300px;
+    border: 2px solid rgb(133, 47, 47);
+    padding: 8px;
+}
+
+.settings-row {
+    display: flex;
+    justify-items: center;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+/* .info-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.info-icon:hover path {
+    fill: #545454;
+    transition: all 500ms;
+} */
+
+.tooltip {
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    visibility: hidden;
+    /* white-space: nowrap; */
+    pointer-events: none;
+    max-width: 254px;
+    z-index: 1;
+}
+
+.small-text-input {
+    width: 32px;
+}
+
+.wide-text-input {
+    width: 200px;
+    height: 100%;
+    text-align: left;
+    margin: 0 0.5rem 0 0;
+}
+
+input[type="button"] {
+    height: 100%;
+    margin: 0;
+}
+
+#filtered-words {
+    height: 50px;
+    overflow-y: auto;
+    border: 1px solid rgb(78, 78, 82);
+    display: flex;
+    align-items: baseline;
+    justify-content: baseline;
+    flex-wrap: wrap;
+}
+
+.filtered-word {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0.2rem;
+    width: fit-content;
+}
+
+.filtered-word span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.filtered-word svg {
+    transform: translateY(1px);
+}
+
+.filtered-word:hover {
+    color:rgb(133, 47, 47);
+    cursor: pointer;
+}
+.filtered-word:hover path {
+    fill: rgb(133, 47, 47);
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 100%;
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgb(39, 39, 39);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #555;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+}

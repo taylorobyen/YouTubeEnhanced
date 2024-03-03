@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/popup.css">
+        
+    </head>
+    <body>
+        <div class="menu-root">
+            <div class="menu-title">YouTube Enhanced</div>
+            <div class="settings-row">
+                <div class="tooltip">Displays a star rating between the like and dislike button on each video</div>
+                <input type="checkbox" class="small-text-input tipped" id="star-rating-check">
+                <div>Star rating</div>
+            </div>
+            <div class="settings-row">
+                <div class="tooltip">Hides anything related to YouTube Shorts</div>
+                <input type="checkbox" class="small-text-input tipped" id="hide-shorts-check">
+                <div>Hide shorts</div>
+            </div>
+            <div class="settings-row">
+                <div class="tooltip">The left and right arrow keys will always adjust the video's timeline</div>
+                <input type="checkbox" class="small-text-input tipped" id="lock-arrows-check">
+                <div>Lock arrows to video time</div>
+            </div>
+            <div class="divider"></div>
+            <div class="settings-row">
+                <div class="tooltip">Filters comments that have less than the specified amount of likes</div>
+                <input type="text" class="small-text-input tipped" id="comment-like-min"  name="like-input">
+                <div>Minimum comment likes</div>
+            </div>
+            <div>
+                <div class="settings-row">
+                    <div class="tooltip">Filter comments by keywords</div>
+                    <input type="text" class="wide-text-input tipped" id="filter-word" placeholder="Add filtered word...">
+                    <input type="button" id="filter-word-button" value="Add">
+                </div>
+                <div id="filtered-words">
+                    <div class="filtered-word">
+                        <span>Apple</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M19.207 6.207a1 1 0 0 0-1.414-1.414L12 10.586 6.207 4.793a1 1 0 0 0-1.414 1.414L10.586 12l-5.793 5.793a1 1 0 1 0 1.414 1.414L12 13.414l5.793 5.793a1 1 0 0 0 1.414-1.414L13.414 12l5.793-5.793z"
+                                fill="#fff">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="js/popup.js"></script>
+    </body>
+</html>
