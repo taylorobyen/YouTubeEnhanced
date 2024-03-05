@@ -1,4 +1,7 @@
-let minLikeCount = 0;
+import { getFullNumberFromAbbreviated } from "./utils";
+import { isOnVideo } from "./utils";
+
+export let minLikeCount = 0;
 
 /* 
     Div that is the parent to all comments.
@@ -8,15 +11,10 @@ let minLikeCount = 0;
 let commentsContentDiv;
 
 let waitingForEssentialDivs = false;
-let listeningForComments = false;
 
-let filteredWords = [];
+export let filteredWords = [];
 
 let commentCountDiv;
-
-
-// Keep track of the current URL so we can reparse all comment when we change videos. 
-let currentURL = "";
 
 let comments = [];
 let hiddenComments = [];
@@ -169,36 +167,6 @@ function addElementToArray(array, element) {
     }
 }
 
-function isOnVideo() {
-    if (window.location.href.search("watch") === -1) {
-        return false;
-    }
-    return true;
-}
-
-// Youtube likes to abbreviate views and likes, we need the full number so we can do math and get the ratios
-// 87K -> 87000
-// 40M -> 40000000
-function getFullNumberFromAbbreviated(abbreviatedNumber) {
-    const conversionChart = {
-        "K": 1000,
-        "M": 1000000,
-        "B": 1000000000
-    };
-
-    // Remove any commas incase the number isn't abbreviated
-    abbreviatedNumber = abbreviatedNumber.replace(",","");
-
-    for (var abbreviationSymbol in conversionChart) {
-        if (abbreviatedNumber.includes(abbreviationSymbol)) {
-            return abbreviatedNumber.split(abbreviationSymbol)[0] * conversionChart[abbreviationSymbol];
-        }
-    }
-
-    // If no symbol was found the number wasn't abbreviated
-    return abbreviatedNumber;
-}
-
 function updateComment(updatedComment) {
 
     for (const comment of comments) {
@@ -224,13 +192,8 @@ function updateMinLikeCountFromSettings() {
     });
 }
 
-function reevaluateComments() {
-    // console.log("Refreshing the hidden state of",comments.length,"comments.");
-    // for (let i = 0; i < comments.length; i++) {
-    //     comments[i].setLikes(0);
-    // }
-
-    for (comment of comments) {
+export function reevaluateComments() {
+    for (let comment of comments) {
         comment.update();
     }
 }
@@ -255,6 +218,16 @@ function updateCommentSelectionElement() {
     commentSelectionElement.querySelector("#comment-total-count").textContent = visibleComments.length + hiddenComments.length;
     commentSelectionElement.querySelector("#filtered-total-count").textContent = hiddenComments.length;
     commentSelectionElement.querySelector("#like-count-filter").setAttribute("placeholder", minLikeCount);
+}
+
+export function initCommentTracking() {
+    comments = [];
+    hiddenComments = [];
+    visibleComments = [];
+    if (!commentsContentDiv) {
+        waitForCommentsContentDiv();
+        return;
+    }
 }
 
 let commentSelectionElement;
@@ -449,37 +422,3 @@ chrome.storage.local.get("filteredWords", (result) => {
 
 updateMinLikeCountFromSettings();
 waitForCommentsContentDiv();
-
-chrome.runtime.onMessage.addListener(
-    function (message, sender, sendResponse) {
-        // if (message.minLikeCount == null && message.urlChanged == null) {
-        //     return;
-        // }
-
-        if (message.urlChanged) {
-            console.log("comments.js - Got new URL:", window.location.href);
-            if (isOnVideo()) {
-                comments = [];
-                hiddenComments = [];
-                visibleComments = [];
-                if (!commentsContentDiv) {
-                    waitForCommentsContentDiv();
-                    return;
-                }
-            }
-            return;
-        }
-
-        if (message.minLikeCount != null) {
-            console.log("Received like count request! Setting the minimum comment like count to " + message.minLikeCount);
-            minLikeCount = message.minLikeCount;
-            reevaluateComments();
-        }
-
-        if (message.filteredWords) {
-            console.log("New filtered word list loaded!", message.filteredWords);
-            filteredWords = message.filteredWords;
-            reevaluateComments();
-        }
-    }
-);
