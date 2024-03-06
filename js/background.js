@@ -23,21 +23,21 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     }
 });
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
-    if (changeInfo.status === "complete" && tab.url.includes("youtube.com")) {
+// chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+//     if (changeInfo.status === "complete" && tab.url.includes("youtube.com")) {
 
-        if (injectedTabs[tabId]) return;
+//         if (injectedTabs[tabId]) return;
 
-        chrome.scripting.executeScript({
-            target: {tabId: tab.id},
-            files: ["build/content.js"]
-        })
-        .then(() => {
-            console.log("Script injected");
-            injectedTabs[tabId] = true;
-        });
-    }
-});
+//         chrome.scripting.executeScript({
+//             target: {tabId: tab.id},
+//             files: ["build/content.js"]
+//         })
+//         .then(() => {
+//             console.log("Script injected");
+//             injectedTabs[tabId] = true;
+//         });
+//     }
+// });
 
 function createContextMenu() {
 

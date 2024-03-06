@@ -1,6 +1,6 @@
 import { isOnVideo } from "./utils";
 import { createVideoRating, removeVideoRating, starRatingEnabled } from "./rating";
-import { initCommentTracking, reevaluateComments, minLikeCount, filteredWords } from "./comments";
+import { reinitCommentTracking, reevaluateComments, minLikeCount, filteredWords } from "./comments";
 
 
 // Only kickoff the rating logic if the setting is enabled or unset. 
@@ -39,7 +39,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.urlChanged) {
         console.log(`Got new URL: ${window.location.href}`);
         if (isOnVideo()) {
-            initCommentTracking();
+            reinitCommentTracking();
         }
     }
 

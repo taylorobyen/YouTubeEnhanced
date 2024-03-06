@@ -26,9 +26,12 @@ function getRating(views, likes) {
     }
 }
 
-/** @param {string} likes */
-/** @param {string} views */
-/** @returns {null} */
+
+/**
+ * @param {string} likes
+ * @param {string} views
+ * @returns {null}
+ */
 function updateRating(likes, views) {
     console.log("Ok we are updating the rating now...");
 
@@ -42,8 +45,10 @@ function updateRating(likes, views) {
     console.log(`Applied rating to the video with a view count of ${views} and a like count of ${likes}`);
 }
 
-/** @param {HTMLElement} titleElement */
-/** @returns {null} */
+/**
+ * @param {HTMLElement} titleElement
+ * @returns {null}
+ */
 function watchForTitleChanges(titleElement) {
     console.log("Watching title element");
     const observer = new MutationObserver(mutations => {

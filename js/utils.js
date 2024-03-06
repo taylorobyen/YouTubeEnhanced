@@ -18,7 +18,6 @@ export function getFullNumberFromAbbreviated(abbreviatedNumber) {
     }
 
     // If no symbol was found the number wasn't abbreviated
-    console.log("The number wasn't abbreviated:", abbreviatedNumber);
     return abbreviatedNumber;
 }
 
