@@ -4,7 +4,6 @@ let commentSelectionElement;
 export function createCommentSelectionElement(parent) {
     if (commentSelectionElement) { return; }
 
-    console.log("Before crisis?", parent);
     for (const child of parent.childNodes) {
         child.style.display = "none";
     }
@@ -130,11 +129,7 @@ export function createCommentSelectionElement(parent) {
  */
 export function updateCommentSelectionElement(visibleCount, hiddenCount) {
     if (!commentSelectionElement) return;
-    if (!document.contains(commentSelectionElement)) {
-        console.log("My magic element dissapeared unexpectededly so I crecreate now 😎");
-        commentSelectionElement = null;
-        createCommentSelectionElement();
-    }
+
     commentSelectionElement.querySelector("#comment-total-count").textContent = visibleCount + hiddenCount;
     commentSelectionElement.querySelector("#filtered-total-count").textContent = hiddenCount;
     commentSelectionElement.querySelector("#like-count-filter").setAttribute("placeholder", minLikeCount);

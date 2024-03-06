@@ -1,7 +1,7 @@
 import { isOnVideo } from "./utils";
 import { createVideoRating, removeVideoRating, starRatingEnabled } from "./rating";
 import { resetCommentTracking, reevaluateComments, minLikeCount, filteredWords } from "./commentHandler";
-import { lockArrowFocusToVideo, unsetVideoFocusListener, lockVideoFocus } from "./videoFocus";
+import { lockArrowFocusToVideo, unsetVideoFocusListener, lockVideoFocus, setVideoFocus, scrollToTop } from "./videoFocus";
 
 // Only kickoff the rating logic if the setting is enabled or unset. 
 chrome.storage.local.get("star_rating_enabled", (data) => {
@@ -20,14 +20,23 @@ chrome.storage.local.get("lock_arrows_to_video_time", (data) => {
 });
 
 document.addEventListener("yt-navigate-finish", () => {
-    if (!starRatingEnabled) { return; }
     if (isOnVideo()){ 
         console.log("YouTube Nav Finished");
-        createVideoRating();
+        if (starRatingEnabled) {
+            createVideoRating();
+        }
 
         if (lockVideoFocus) {
             lockArrowFocusToVideo();
         }
+    }
+});
+
+document.addEventListener("keydown", (e) => {
+    console.log(e);
+    if (e.code === "Space" && lockVideoFocus) {
+        setVideoFocus();
+        scrollToTop();
     }
 });
 
