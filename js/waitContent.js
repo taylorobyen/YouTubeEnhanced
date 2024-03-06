@@ -37,9 +37,11 @@ export function waitElement(selector, parent = document, timeout = 30000) {
             subtree: true
         });
 
-        setTimeout(() => {
-            observer.disconnect();
-            reject(new Error(`Timeout waiting for element ${selector}`));
-        }, timeout);
+        if (timeout) {
+            setTimeout(() => {
+                observer.disconnect();
+                reject(new Error(`Timeout waiting for element ${selector}`));
+            }, timeout);
+        }
     });
 }

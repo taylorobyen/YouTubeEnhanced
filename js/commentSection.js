@@ -1,9 +1,10 @@
-import { reevaluateComments, minLikeCount } from "./comments";
+import { reevaluateComments, minLikeCount } from "./commentHandler";
 
 let commentSelectionElement;
 export function createCommentSelectionElement(parent) {
     if (commentSelectionElement) { return; }
 
+    console.log("Before crisis?", parent);
     for (const child of parent.childNodes) {
         child.style.display = "none";
     }
@@ -89,10 +90,14 @@ export function createCommentSelectionElement(parent) {
     likeIconPath.setAttribute("stroke-linecap", "round");
     likeIcon.appendChild(likeIconPath);
 
+    let filteredTotalCountStyle = getComputedStyle(filteredTotalCount);
+
     let likeCountTextInput = document.createElement("input");
     likeCountTextInput.setAttribute("type", "text");
     likeCountTextInput.setAttribute("placeholder", "0");
-    likeCountTextInput.setAttribute("size", "3");
+    // likeCountTextInput.setAttribute("size", "3");
+    likeCountTextInput.style.fontSize = filteredTotalCountStyle.fontSize;
+    likeCountTextInput.style.fontWeight = filteredTotalCountStyle.fontWeight;
     likeCountTextInput.classList.add("text-input-with-icon");
     likeCountTextInput.id = "like-count-filter";
     likeCountSelector.appendChild(likeCountTextInput);

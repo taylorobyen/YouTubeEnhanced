@@ -1,14 +1,22 @@
 import { isOnVideo } from "./utils";
 import { createVideoRating, removeVideoRating, starRatingEnabled } from "./rating";
-import { reinitCommentTracking, reevaluateComments, minLikeCount, filteredWords } from "./comments";
-
+import { resetCommentTracking, reevaluateComments, minLikeCount, filteredWords } from "./commentHandler";
+import { lockArrowFocusToVideo, unsetVideoFocusListener, lockVideoFocus } from "./videoFocus";
 
 // Only kickoff the rating logic if the setting is enabled or unset. 
-chrome.storage.local.get("star_rating_enabled", function(data) {
+chrome.storage.local.get("star_rating_enabled", (data) => {
     let result = data["star_rating_enabled"]
     if (result === null || result === true) {
         starRatingEnabled = true;
     }
+});
+
+chrome.storage.local.get("lock_arrows_to_video_time", (data) => {
+    let lockVideoFocus = data.lock_arrows_to_video_time | false;
+    if (!lockVideoFocus || !isOnVideo()) {
+        return;
+    }
+    lockArrowFocusToVideo();
 });
 
 document.addEventListener("yt-navigate-finish", () => {
@@ -16,12 +24,15 @@ document.addEventListener("yt-navigate-finish", () => {
     if (isOnVideo()){ 
         console.log("YouTube Nav Finished");
         createVideoRating();
-        // updateRatingAfterTitleChange(); 
+
+        if (lockVideoFocus) {
+            lockArrowFocusToVideo();
+        }
     }
 });
 
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     
     if (message.enableStarRating === false) {
         starRatingEnabled = false;
@@ -39,7 +50,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     if (message.urlChanged) {
         console.log(`Got new URL: ${window.location.href}`);
         if (isOnVideo()) {
-            reinitCommentTracking();
+            resetCommentTracking();
         }
     }
 
@@ -53,5 +64,11 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         console.log("New filtered word list loaded!", message.filteredWords);
         filteredWords = message.filteredWords;
         reevaluateComments();
+    }
+
+    if (message.enableLockArrows) {
+        lockArrowFocusToVideo();
+    } else if (message.enableLockArrows === false) {
+        unsetVideoFocusListener();
     }
 });
