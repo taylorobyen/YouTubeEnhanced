@@ -25,9 +25,16 @@
     animation: star-flash-anim 1000ms;
 }
 
+/* Remove awkward padding between comment controls
+   and the sort by button */
+h2#count {
+    margin-right: 1rem !important;
+}
+
 .comment-buttons {
     display: flex;
     gap: 1rem;
+    transform: translateY(-4px);
 }
 
 .info-icon-box {
@@ -42,22 +49,22 @@
 }
 
 .info-icon-box > input[type="text"] {
-    /* width: fit-content; */
     width: 30px;
     background-color: transparent;
     padding-left: 24px;
-    font-size: 1.6rem;
-    font-weight: 400;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 2.8rem;
     color: inherit;
     outline: none;
     border: none;
 }
 
 .info-icon-box > input[type="text"]::placeholder {
-    /* width: fit-content; */
     color: inherit;
-    font-size: 1.6rem;
-    font-weight: 400;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 2.8rem;
     font-family: inherit;
     opacity: 1;
 }
