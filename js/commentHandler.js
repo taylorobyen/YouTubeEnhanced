@@ -11,8 +11,6 @@ let commentsContainer;
 /** @type {HTMLElement} */
 let waitingForEssentialDivs = false;
 
-// let commentCountDiv;
-
 /**
  * Handles comments when they are created or modified. Will automatically skip elements such as loading wheels.
  * @param {HTMLElement} updatedComment Potentially updated comment
@@ -56,7 +54,9 @@ function trackComment(comment) {
     comments.push(new Comment(comment));
 }
 
-export function resetCommentTracking() {
+export async function resetCommentTracking() {
+    if (!isOnVideo()) return;
+    
     comments = [];
     hiddenComments = [];
     visibleComments = [];
@@ -64,17 +64,17 @@ export function resetCommentTracking() {
     if (!commentsContainer) {
         setupCommentObserver();
     }
+
+    // Comment count element is destroyed each time a new video is loaded
+    let commentCountWrapper = await waitElement("#count > yt-formatted-string", document, 0);
+    createCommentSelectionElement(commentCountWrapper);
 }
 
 async function setupCommentObserver() {
 
-    if (waitingForEssentialDivs || !isOnVideo) return;
+    if (waitingForEssentialDivs) return;
 
     waitingForEssentialDivs = true;
-
-    // commentCountDiv = await waitElement("#count > yt-formatted-string > span:nth-child(2)", document, 0);
-    let commentCountWrapper = await waitElement("#count > yt-formatted-string", document, 0);
-
 
     commentsContainer = await waitElement("#comments #contents");
 
@@ -95,10 +95,7 @@ async function setupCommentObserver() {
         // console.log("Processing existing comment", comment);
         handleCommentChange(comment);
     }
-
-    // Creates the icons and number display for showing the user how many comments have been filtered
-    createCommentSelectionElement(commentCountWrapper);
-
+   
     waitingForEssentialDivs = false;
 }
 

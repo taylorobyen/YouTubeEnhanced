@@ -1,8 +1,15 @@
 import { reevaluateComments, minLikeCount } from "./commentHandler";
 
+/** @type {HTMLElement} */
 let commentSelectionElement;
+
+/**
+ * Create the comment filtered, shown, and minimum like count elements
+ * @param {HTMLElement} parent 
+ * @returns {null}
+ */
 export function createCommentSelectionElement(parent) {
-    if (commentSelectionElement) { return; }
+    if (commentSelectionElement && commentSelectionElement.parentNode) { return; }
 
     for (const child of parent.childNodes) {
         child.style.display = "none";

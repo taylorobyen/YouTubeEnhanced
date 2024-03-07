@@ -29,11 +29,12 @@ document.addEventListener("yt-navigate-finish", () => {
         if (lockVideoFocus) {
             lockArrowFocusToVideo();
         }
+
+        resetCommentTracking();
     }
 });
 
 document.addEventListener("keydown", (e) => {
-    console.log(e);
     if (e.code === "Space" && lockVideoFocus) {
         setVideoFocus();
         scrollToTop();
@@ -53,14 +54,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         starRatingEnabled = true;
         console.log("Enabling star rating");
         createVideoRating();
-    }
-
-    // This can probably be removed and use the `yt-navigate-finish` event instead
-    if (message.urlChanged) {
-        console.log(`Got new URL: ${window.location.href}`);
-        if (isOnVideo()) {
-            resetCommentTracking();
-        }
     }
 
     if (message.minLikeCount != null) {

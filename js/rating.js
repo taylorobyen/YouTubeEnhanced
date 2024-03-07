@@ -71,6 +71,7 @@ export function removeVideoRating() {
     }
 }
 
+// TODO: Liking the video deletes the rating...
 export async function createVideoRating() {
 
     console.log("createVideoRating has been called. pendingRating: ", pendingRating);

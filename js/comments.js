@@ -42,7 +42,7 @@ export class Comment {
             console.log("Failed to parse comment text from",this.element);
         }
 
-        this.text = commentTextDiv?.innerHTML;
+        this.text = commentTextDiv?.textContent;
     }
 
     async getText() {
@@ -56,7 +56,7 @@ export class Comment {
     async containsFilteredWord() {
         for (const filteredWord of filteredWords) {
             const regex = new RegExp(filteredWord, "i");
-            if (regex.test(this.getText())) {
+            if (regex.test(await this.getText())) {
                 return true;
             }
         }
@@ -65,10 +65,6 @@ export class Comment {
     }
 
     async setHidden() {
-        if (await this.getLikes() < minLikeCount) {
-            console.log(`Comment has a like count of ${this.likes} which was less than ${minLikeCount}`)
-        }
-
         if (await this.getLikes() < minLikeCount || await this.containsFilteredWord()) {
             this.hide();
         } else {
